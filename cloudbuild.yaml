@@ -1,25 +1,12 @@
-
 steps:
-  # Docker Build
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 
-           'asia-docker.pkg.dev/${fly-far-tech}/asia.gcr.io/asia.gcr.io/app-engine-tmp', 
-           '.']
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
 
-  # Docker Push
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 
-          'asia-docker.pkg.dev/${fly-far-tech}/asia.gcr.io/app-engine-tmp', ]
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['test']
 
-  # Entrypoint, timeout and environment variables
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    timeout: 240s
-    args: ['compute', 'instances', 
-           'create-with-container', 'ota-portal-main-vm',
-           '--container-image', 
-           'asia-docker.pkg.dev/${fly-far-tech}/asia.gcr.io/app-engine-tmp', ]
-    env:
-      - 'CLOUDSDK_COMPUTE_REGION=asia-southeast1-a'
-      - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-a'
-# [END cloudbuild_basic_config]
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']

@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  await  app.enableCors();
   const config = new DocumentBuilder()
   .setTitle('FlyFar tech')
   .setDescription('Flyfar tech Description')
@@ -14,7 +15,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   await app.listen(port);
-  app.enableCors()
+ 
   
 }
 bootstrap();

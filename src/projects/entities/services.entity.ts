@@ -6,7 +6,9 @@ export class Services{
    @PrimaryGeneratedColumn()
    serviceid:string
    @Column({default:null})
-   Title:string
+   Name:string 
+   @Column({default:null})
+   imageurl:string
    @Column({default:null})
    TextField:string
    @Column({default:null})

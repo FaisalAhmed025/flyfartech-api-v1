@@ -38,7 +38,7 @@ export class ProjectsController {
           properties: {
             Designation: { type: 'string' },
             FullName: { type: 'string' },
-            Review: { type: 'string' },
+            Review: { type: 'number' },
             Description: { type: 'string' },
             imageurl: {
               type: 'string',
@@ -421,15 +421,42 @@ export class ProjectsController {
 
     
     @Post('Addservices')
+    @UseInterceptors(FileFieldsInterceptor([
+      { name: 'Attachment', maxCount: 2 }]))
+      @ApiConsumes('multipart/form-data')
+      @ApiBody({
+        schema: {
+          type: 'object',
+          properties: { 
+            Name: { type: 'string' },
+            TextField: { type: 'string' },
+            CustomerCount: { type: 'number' },
+            Category: { type: 'string' },
+            imageurl: {
+              type: 'string',
+              format: 'binary',
+            },
+          },
+        },
+      })
     async Addservices( 
+      @UploadedFiles()
+      file: {
+        imageurl?: Express.Multer.File[]},
     @Req() req: Request,
     @Body() body,
     @Res() res: Response){
-      const{TextField, Title } =req.body;
-      const products  = new Services()
-      products.Title =Title
-      products.TextField =TextField
-      await this.ServicesRepository.save({...products})
+      const{TextField, Name ,CustomerCount} =req.body;
+      let imageurl = null;
+      if (file.imageurl && file.imageurl.length > 0) {
+        imageurl = await this.s3service.Addimage(file.imageurl[0]);
+      }
+      const services  = new Services()
+      services.Name =Name
+      services.TextField =TextField
+      services.CustomerCount =CustomerCount
+      services.imageurl =imageurl
+      await this.ServicesRepository.save({...services})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Services Added Successfully", })
     }
     @Get('allservices')

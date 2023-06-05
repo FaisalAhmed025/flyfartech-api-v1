@@ -6,7 +6,7 @@ export class Testimonial{
    @PrimaryGeneratedColumn('uuid')
    id:string
    @Column({default:null})
-   Review:string
+   Review:number
    @Column({default:null})
    Description:string
    @Column({default:null})

@@ -1,22 +1,9 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-
-const crypto = require('crypto');
-const secretKey = 'my-secret-key';
-const maxValue = 10000;
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Produtcs{
    @PrimaryGeneratedColumn('uuid')
    productid:string
-   @BeforeInsert()
-   async generateUniqueRandomNumber() {
-     const timestamp = new Date().toISOString();
-     const data = `${timestamp}-${secretKey}`;
-     const hash = crypto.createHash('sha256').update(data).digest('hex');
-     const randomNumber = parseInt(hash, 16) % maxValue;
-     this.productid = `FFLU${randomNumber.toString().padStart(4, '0')}`;
-   }
-
    @Column({default:null})
    Country:string
    @Column({default:null})

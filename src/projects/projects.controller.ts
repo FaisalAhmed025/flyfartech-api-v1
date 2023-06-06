@@ -422,7 +422,7 @@ export class ProjectsController {
     
     @Post('Addservices')
     @UseInterceptors(FileFieldsInterceptor([
-      { name: 'Attachment', maxCount: 2 }]))
+      { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
       @ApiBody({
         schema: {

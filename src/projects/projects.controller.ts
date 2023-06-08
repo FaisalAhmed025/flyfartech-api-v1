@@ -14,6 +14,8 @@ import { Employee } from './entities/employe.entity';
 import { Testimonial } from './entities/testimonial.entity';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
+
+
 @Controller('projects')
 export class ProjectsController {
   constructor(
@@ -113,7 +115,7 @@ export class ProjectsController {
           message: "Testimonial not found",
         });
       }
-
+      
       testimonial.imageurl =imageurl
       testimonial.Review =Review
       testimonial.FullName = FullName
@@ -128,11 +130,17 @@ export class ProjectsController {
     @Get('alltestimonial')
     async alltestimonial( @Res() res: Response){
       const alltestimonial = await this.TestimonialRepository.find({})
-      return res.status(HttpStatus.OK).send({alltestimonial})  
+      if (!alltestimonial) {
+        return res.status(HttpStatus.NOT_FOUND).send({
+          status: "error",
+          message: "Testimonial not found",
+        });
+      }
+      return res.status(HttpStatus.OK).json({alltestimonial})  
     }
 
 
-    @Delete(':id')
+    @Delete('testimonial/:id')
     async Deletetestimonial(
        @Param('id') id: string,
        @Req() req: Request,
@@ -236,7 +244,7 @@ export class ProjectsController {
     }
 
     
-    @Delete(':Employeeid')
+    @Delete('employee/:Employeeid')
     async DeleteEmployee(
        @Param('Employeeid') Employeeid: string,
        @Req() req: Request,
@@ -350,13 +358,13 @@ export class ProjectsController {
     }
 
 
-    @Delete(':productid')
+    @Delete('product/:productid')
     async Deleteproduct(
        @Param('productid') productid: string,
        @Req() req: Request,
        @Res() res: Response) {
        await this.ProductRepository.delete(productid)
-       return res.status(HttpStatus.OK).json({ message: 'Product has deleted' });
+       return res.status(HttpStatus.OK).json({ status:"success", message: 'Product has deleted' });
     }
 
 
@@ -410,7 +418,7 @@ export class ProjectsController {
     }
 
 
-    @Delete(':contactid')
+    @Delete('contact/:contactid')
     async Deletecontact(
        @Param('contactid') contactid: string,
        @Req() req: Request,
@@ -452,13 +460,66 @@ export class ProjectsController {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
       const services  = new Services()
+      services.imageurl =imageurl
       services.Name =Name
       services.TextField =TextField
       services.CustomerCount =CustomerCount
-      services.imageurl =imageurl
       await this.ServicesRepository.save({...services})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Services Added Successfully", })
     }
+
+
+    
+    @Patch('updateservice/:serviceid')
+    @UseInterceptors(FileFieldsInterceptor([
+      { name: 'imageurl', maxCount: 2 }]))
+      @ApiConsumes('multipart/form-data')
+      @ApiBody({
+        schema: {
+          type: 'object',
+          properties: { 
+            Name: { type: 'string' },
+            TextField: { type: 'string' },
+            CustomerCount: { type: 'number' },
+            Category: { type: 'string' },
+            imageurl: {
+              type: 'string',
+              format: 'binary',
+            },
+          },
+        },
+      })
+    async updateservices( 
+      @UploadedFiles()
+      file: {
+        imageurl?: Express.Multer.File[]},
+    @Req() req: Request,
+    @Param('serviceid') serviceid:string,
+    @Body() body,
+    @Res() res: Response){
+      const{TextField, Name ,CustomerCount} =req.body;
+      let imageurl = null;
+      if (file.imageurl && file.imageurl.length > 0) {
+        imageurl = await this.s3service.Addimage(file.imageurl[0]);
+      }
+
+      const services = await this.ServicesRepository.findOne({where:{serviceid}}); // Retrieve testimonial by ID instead of UUID
+
+      if (!services) {
+        return res.status(HttpStatus.NOT_FOUND).send({
+          status: "error",
+          message: "service not found",
+        });
+      }
+      services.imageurl =imageurl
+      services.Name =Name
+      services.TextField =TextField
+      services.CustomerCount =CustomerCount
+      await this.ServicesRepository.update({serviceid},{...services})
+      return res.status(HttpStatus.OK).send({ status: "success", message: "Service update Successfully", })
+    }
+
+
     @Get('allservices')
     async allservices( @Res() res: Response){
       const allservices = await this.ServicesRepository.find({})
@@ -466,7 +527,7 @@ export class ProjectsController {
     }
 
 
-    @Delete(':serviceid')
+    @Delete('delelte/:serviceid')
     async Deleteservice(
        @Param('serviceid') serviceid: string,
        @Req() req: Request,
@@ -540,7 +601,7 @@ export class ProjectsController {
     }
 
 
-    @Delete(':heroid')
+    @Delete('delete/:heroid')
     async Deletehero(
        @Param('heroid') heroid: string,
        @Req() req: Request,
@@ -615,7 +676,6 @@ export class ProjectsController {
       @UploadedFiles()
       file: {
         imageurl?: Express.Multer.File[]},
-      
       @Param('blogid') blogid: string,
       @Req() req: Request,
       @Body() body,
@@ -650,12 +710,18 @@ export class ProjectsController {
     }
 
 
-    @Delete(':blogid')
+    @Delete('delete/:blogid')
     async Deleteblog(
        @Param('blogid') blogid: string,
        @Req() req: Request,
        @Res() res: Response) {
-       await this.BlogRepository.delete(blogid)
+       const blog = await this.BlogRepository.delete(blogid)
+       if (!blog) {
+        return res.status(HttpStatus.NOT_FOUND).send({
+          status: "error",
+          message: "blog not found",
+        });
+      }
        return res.status(HttpStatus.OK).json({ message: 'blog has deleted' });
     }
 }

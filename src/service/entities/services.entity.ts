@@ -13,8 +13,8 @@ export class Services{
    TextField:string
    @Column({default:null})
    CustomerCount:string
-   @CreateDateColumn()
-   CreatedAt:string
-   @UpdateDateColumn()
-   UpdatedAt:string
+   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+   public created_at: Date;
+   @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+   public updated_at: Date;
 }

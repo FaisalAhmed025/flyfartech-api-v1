@@ -10,9 +10,10 @@ export class Employee {
    Designation:string
    @Column({default:null})
    imageurl:string
-   @CreateDateColumn()
-   CreatedAt:Date
-   @UpdateDateColumn()
-   UpdatedAt:Date
+   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+   public created_at: Date;
+   
+   @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+   public updated_at: Date;
 
 }

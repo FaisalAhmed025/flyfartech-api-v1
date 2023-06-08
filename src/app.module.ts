@@ -27,12 +27,12 @@ import { HeroModule } from './hero/hero.module';
       password: "@Kayes70455",
       host: "flyfarint.com",
       database:"flyfarin_tech",
-      
       // username:"root",api-flyfartech-v1
       // password: "",
       // host: "127.0.0.1",
       // database:"flyfartech",
-      // port:3306,
+      
+      port:3306,
       entities:[Produtcs,Hero,Services,Contact, Blog,Employee,Testimonial],
       synchronize:false
 

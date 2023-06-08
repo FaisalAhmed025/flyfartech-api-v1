@@ -1,4 +1,4 @@
-import { Testimonial } from './projects/entities/testimonial.entity';
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,11 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import { Produtcs } from './projects/entities/product.entitt';
 import { ConfigModule } from '@nestjs/config';
-import { Hero } from './projects/entities/hero.entity';
-import { Services } from './projects/entities/services.entity';
-import { Contact } from './projects/entities/contact.entity';
-import { Blog } from './projects/entities/blog.entity';
-import { Employee } from './projects/entities/employe.entity';
+import { Hero } from './hero/entities/hero.entity';
+import { Services } from './service/entities/services.entity';
+import { Contact } from './contact/entities/contact.entity';
+import { Blog } from './blog/entities/blog.entity';
+import { EmployeeModule } from './employee/employee.module';
+import { Employee } from './employee/entities/employee.entity';
+import { TestimonialModule } from './testimonial/testimonial.module';
+import { Testimonial } from './testimonial/entities/testimonial.entity';
+import { ServiceModule } from './service/service.module';
+import { BlogModule } from './blog/blog.module';
+import { ContactModule } from './contact/contact.module';
+import { HeroModule } from './hero/hero.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true, envFilePath: '.env', }),
@@ -27,11 +34,17 @@ import { Employee } from './projects/entities/employe.entity';
       // database:"flyfartech",
       // port:3306,
       entities:[Produtcs,Hero,Services,Contact, Blog,Employee,Testimonial],
-      synchronize:false
+      synchronize:true
 
     }
     ),
-    ProjectsModule
+    ProjectsModule,
+    EmployeeModule,
+    TestimonialModule,
+    ServiceModule,
+    BlogModule,
+    ContactModule,
+    HeroModule
   ],
   controllers: [AppController],
   providers: [AppService],

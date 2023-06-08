@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
 @Entity()
 export class Services{
-   @PrimaryGeneratedColumn()
+   @PrimaryColumn()
    serviceid:string
    @Column({default:null})
    Name:string 
@@ -13,4 +13,8 @@ export class Services{
    TextField:string
    @Column({default:null})
    CustomerCount:string
+   @CreateDateColumn()
+   CreatedAt:string
+   @UpdateDateColumn()
+   UpdatedAt:string
 }

@@ -1,17 +1,19 @@
+
 import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+
 @Entity()
-export class Produtcs{
+export class Contact{
    @PrimaryColumn()
-   projectid:string
+   contactid:string
    @Column({default:null})
-   Country:string
+   Category:string
    @Column({default:null})
-   Title:string
+   Name:string
    @Column({default:null})
-   Tag:string
+   Email:string
    @Column({default:null})
-   Projectlink:string
+   Attachment:string
    @Column({default:null})
    Description:string
    @Column({default:null})
@@ -20,5 +22,4 @@ export class Produtcs{
    CreatedAt:string
    @UpdateDateColumn()
    UpdatedAt:string
-
 }

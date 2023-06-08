@@ -68,8 +68,8 @@ export class GCSStorageService  {
     
 
     // // update cover image 
-    async updateImage(productid: string, file: Express.Multer.File) {
-      const project = await this.productRepo.findOne({where:{productid}})
+    async updateImage(projectid: string, file: Express.Multer.File) {
+      const project = await this.productRepo.findOne({where:{projectid}})
       if (!project) {
         throw new Error('Image not found');
       }

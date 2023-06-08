@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 
 @Entity()
 export class Blog{
-   @PrimaryGeneratedColumn('uuid')
+   @PrimaryColumn()
    blogid:string
    @Column({default:null})
    Category:string
@@ -15,4 +15,8 @@ export class Blog{
    WrittenBy:string
    @Column({default:null})
    Designation:string
+   @CreateDateColumn()
+   CreatedAt:string
+   @UpdateDateColumn()
+   UpdatedAt:string
 }

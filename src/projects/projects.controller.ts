@@ -146,7 +146,7 @@ export class ProjectsController {
        @Req() req: Request,
        @Res() res: Response) {
        await this.TestimonialRepository.delete(id)
-       return res.status(HttpStatus.OK).json({ message: 'testimonial has deleted' });
+       return res.status(HttpStatus.OK).send({ status:"success", message: 'testimonial has deleted' });
     }
 
 
@@ -214,7 +214,7 @@ export class ProjectsController {
       @Req() req: Request,
       @Body() body,
       @Res() res: Response){
-      const{Designation,FullName,Review,Description} =req.body;
+      const{Designation,FullName} =req.body;
       let imageurl = null;
       if (file.imageurl && file.imageurl.length > 0) {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
@@ -228,7 +228,6 @@ export class ProjectsController {
           message: "employee not found",
         });
       }
-
       employee.imageurl =imageurl
       employee.Designation =Designation
       employee.FullName = FullName
@@ -249,9 +248,16 @@ export class ProjectsController {
        @Param('Employeeid') Employeeid: string,
        @Req() req: Request,
        @Res() res: Response) {
-       await this.EmployeeRepository.delete(Employeeid)
-       return res.status(HttpStatus.OK).json({ message: 'Employee has deleted' });
+      const employee= await this.EmployeeRepository.delete(Employeeid)
+      if (!employee) {
+        return res.status(HttpStatus.NOT_FOUND).send({
+          status: "error",
+          message: "employee not found",
+        });
+      }
+       return res.status(HttpStatus.OK).json({status:"succes", message: 'Employee has deleted' });
     }
+
 
 
     @Post('AddProject')
@@ -274,7 +280,7 @@ export class ProjectsController {
           },
         },
       })
-    async addproduct( 
+    async addproject( 
       @UploadedFiles()
       file: {
         imageurl?: Express.Multer.File[]},
@@ -321,7 +327,7 @@ export class ProjectsController {
       @UploadedFiles()
       file: {
         imageurl?: Express.Multer.File[]},
-      
+
       @Param('productid') productid: string,
       @Req() req: Request,
       @Body() body,
@@ -364,7 +370,7 @@ export class ProjectsController {
        @Req() req: Request,
        @Res() res: Response) {
        await this.ProductRepository.delete(productid)
-       return res.status(HttpStatus.OK).json({ status:"success", message: 'Product has deleted' });
+       return res.status(HttpStatus.OK).json({ status:"success", message: 'project has deleted' });
     }
 
 

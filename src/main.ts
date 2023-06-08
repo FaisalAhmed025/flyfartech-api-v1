@@ -8,7 +8,7 @@ async function bootstrap() {
   await app.enableCors();
   const config = new DocumentBuilder()
   .setTitle('FlyFar Tech')
-  .setDescription('FlyFar Tech Description')
+  .setDescription('FlyFar Tech')
   .setVersion('1.0')
   .addTag('FFT')
   .build();

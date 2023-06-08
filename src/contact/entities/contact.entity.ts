@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export class Contact{
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    contactid:string
    @Column({default:null})
    Category:string

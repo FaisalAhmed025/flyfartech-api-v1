@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export class Services{
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    serviceid:string
    @Column({default:null})
    Name:string 

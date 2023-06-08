@@ -7,7 +7,7 @@ const maxValue = 10000;
 
 @Entity()
 export class Hero{
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    heroid:string
    @Column({default:null})
    Design:string

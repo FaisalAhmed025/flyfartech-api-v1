@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
 @Entity()
 export class Testimonial{
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    id:string
    @Column({default:null})
    Review:number

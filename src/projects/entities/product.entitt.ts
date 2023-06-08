@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export class Produtcs{
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    projectid:string
    @Column({default:null})
    Country:string

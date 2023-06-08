@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
 @Entity()
 export class Employee {
-   @PrimaryColumn()
+   @PrimaryGeneratedColumn('uuid')
    Employeeid:string
    @Column({default:null})
    FullName:string

@@ -28,7 +28,7 @@ import { Hero } from './hero/entities/hero.entity';
       host: "flyfarint.com",
       database:"flyfarin_tech",
 
-      // username:"root",api-flyfartech-v1
+      // username:"root",
       // password: "",
       // host: "127.0.0.1",
       // database:"flyfartech",

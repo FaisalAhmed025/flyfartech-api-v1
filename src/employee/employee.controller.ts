@@ -55,7 +55,7 @@ export class EmployeeController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Employee Added Successfully", })
   }
 
-  @Patch('update/:Employeeid')
+  @Patch(':Employeeid')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'imageurl', maxCount: 2 }]))
     @ApiConsumes('multipart/form-data')
@@ -111,7 +111,7 @@ export class EmployeeController {
   }
 
   
-  @Delete('delete/:Employeeid')
+  @Delete(':Employeeid')
   async DeleteEmployee(
      @Param('Employeeid') Employeeid: string,
      @Req() req: Request,

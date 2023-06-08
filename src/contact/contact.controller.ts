@@ -65,7 +65,7 @@ export class ContactController {
     return res.status(HttpStatus.OK).send({allcontact})
   }
 
-  @Delete('delete/:contactid')
+  @Delete(':contactid')
   async Deletecontact(
      @Param('contactid') contactid: string,
      @Req() req: Request,

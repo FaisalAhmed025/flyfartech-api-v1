@@ -9,15 +9,14 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Projects')
-
-@Controller()
+@Controller('project')
 export class ProjectsController {
   constructor(
     @InjectRepository(Produtcs) private ProductRepository: Repository<Produtcs>,
     private readonly projectsService: ProjectsService,
     private s3service: GCSStorageService) {}
 
-    @Post('Add')
+    @Post('add')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -60,7 +59,7 @@ export class ProjectsController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Project Added Successfully", })
     }
 
-    @Patch('update/:projectid')
+    @Patch(':projectid')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -114,14 +113,14 @@ export class ProjectsController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Employee update Successfully", })
     }
 
-    @Get('allprojects')
+    @Get('all')
     async Allprjoects( @Res() res: Response){
       const allprojects = await this.ProductRepository.find({})
       return res.status(HttpStatus.OK).send({allprojects})
     }
 
 
-    @Delete('delete/:projectid')
+    @Delete(':projectid')
     async Deleteproduct(
        @Param('projectid') projectid: string,
        @Req() req: Request,

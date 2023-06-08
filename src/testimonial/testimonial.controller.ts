@@ -18,7 +18,6 @@ export class TestimonialController {
     @InjectRepository(Testimonial) private TestimonialRepository: Repository<Testimonial>,
     private s3service: GCSStorageService,
      private readonly testimonialService: TestimonialService) {}
-
   
   @Post('add')
   @UseInterceptors(FileFieldsInterceptor([
@@ -63,7 +62,7 @@ export class TestimonialController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "testimonial Added Successfully", })
   }
 
-  @Patch('update/:id')
+  @Patch(':id')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'imageurl', maxCount: 2 }]))
     @ApiConsumes('multipart/form-data')
@@ -130,7 +129,7 @@ export class TestimonialController {
   }
 
 
-  @Delete('delete/:id')
+  @Delete(':id')
   async Deletetestimonial(
      @Param('id') id: string,
      @Req() req: Request,

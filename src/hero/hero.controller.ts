@@ -17,7 +17,7 @@ export class HeroController {
 
 
     
-    @Post('Addvideos')
+    @Post('Add')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'deployurl', maxCount: 2 },
       { name: 'codeurl', maxCount: 2 },
@@ -73,14 +73,14 @@ export class HeroController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Project Added Successfully", })
 
     }
-    @Get('allvideos')
+    @Get('all')
     async allvideos( @Res() res: Response){
       const allvideos = await this.HeroRepository.find({})
       return res.status(HttpStatus.OK).send({allvideos})
     }
 
 
-    @Delete('delete/:heroid')
+    @Delete(':heroid')
     async Deletehero(
        @Param('heroid') heroid: string,
        @Req() req: Request,

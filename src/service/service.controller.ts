@@ -20,7 +20,7 @@ export class ServiceController {
     private readonly serviceService: ServiceService) {}
 
     
-    @Post('Add')
+    @Post('add')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -62,7 +62,7 @@ export class ServiceController {
 
 
     
-    @Patch('update/:serviceid')
+    @Patch(':serviceid')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -120,7 +120,7 @@ export class ServiceController {
     }
 
 
-    @Delete('delete/:serviceid')
+    @Delete(':serviceid')
     async Deleteservice(
        @Param('serviceid') serviceid: string,
        @Req() req: Request,

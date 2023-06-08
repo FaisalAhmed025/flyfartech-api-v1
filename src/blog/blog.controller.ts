@@ -58,7 +58,7 @@ export class BlogController {
       await this.BlogRepository.save({...blog})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Blog created Successfully", })
     }
-    @Patch('update/:blogid')
+    @Patch(':blogid')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -113,7 +113,7 @@ export class BlogController {
       return res.status(HttpStatus.OK).send({allblog})
     }
 
-    @Delete('delete/:blogid')
+    @Delete(':blogid')
     async Deleteblog(
        @Param('blogid') blogid: string,
        @Req() req: Request,

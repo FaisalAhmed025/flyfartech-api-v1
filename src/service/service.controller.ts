@@ -103,7 +103,6 @@ export class ServiceController {
           message: "service not found",
         });
       }
-
       services.imageurl =imageurl
       services.Name =Name
       services.TextField =TextField

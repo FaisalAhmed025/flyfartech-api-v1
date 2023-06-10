@@ -70,7 +70,7 @@ export class HeroController {
       products.Deploy=deploy
       products.Design=design
       await this.HeroRepository.save({...products})
-      return res.status(HttpStatus.OK).send({ status: "success", message: "Project Added Successfully", })
+      return res.status(HttpStatus.OK).send({ status: "success", message: "Video uploaded Successfully", })
 
     }
     @Get('all')
@@ -86,6 +86,6 @@ export class HeroController {
        @Req() req: Request,
        @Res() res: Response) {
        await this.HeroRepository.delete(heroid)
-       return res.status(HttpStatus.OK).json({ message: 'heroi has deleted' });
+       return res.status(HttpStatus.OK).json({ message: 'video has deleted' });
     }
 }

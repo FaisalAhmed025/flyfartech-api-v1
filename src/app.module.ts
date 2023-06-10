@@ -46,7 +46,7 @@ import { Hero } from './hero/entities/hero.entity';
     ServiceModule,
     BlogModule,
     ContactModule,
-    HeroModule
+    HeroModule,
   ],
   controllers: [AppController],
   providers: [AppService],

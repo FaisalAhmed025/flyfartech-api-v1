@@ -27,15 +27,15 @@ import { Careertalk } from './careertalk/entities/careertalk.entity';
     ConfigModule.forRoot({ isGlobal:true, envFilePath: '.env', }),
     TypeOrmModule.forRoot({
       type:'mysql',
-      // username:"flyfarin_erp",
-      // password: "@Kayes70455",
-      // host: "flyfarint.com",
-      // database:"flyfarin_tech",
+      username:"flyfarin_erp",
+      password: "@Kayes70455",
+      host: "flyfarint.com",
+      database:"flyfarin_tech",
       
-      username:"root",
-      password: "",
-      host: "127.0.0.1",
-      database:"flyfartech",
+      // username:"root",
+      // password: "",
+      // host: "127.0.0.1",
+      // database:"flyfartech",
 
       port:3306,
       entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Careertalk],

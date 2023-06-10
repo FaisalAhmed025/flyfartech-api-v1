@@ -18,24 +18,27 @@ import { Contact } from './contact/entities/contact.entity';
 import { Services } from './service/entities/services.entity';
 import { Employee } from './employee/entities/employee.entity';
 import { Hero } from './hero/entities/hero.entity';
+import { CarreerpageModule } from './carreerpage/carreerpage.module';
+import { Carreerpage } from './carreerpage/entities/carreerpage.entity';
+import { CareertalkModule } from './careertalk/careertalk.module';
+import { Careertalk } from './careertalk/entities/careertalk.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true, envFilePath: '.env', }),
     TypeOrmModule.forRoot({
       type:'mysql',
-      username:"flyfarin_erp",
-      password: "@Kayes70455",
-      host: "flyfarint.com",
-      database:"flyfarin_tech",
+      // username:"flyfarin_erp",
+      // password: "@Kayes70455",
+      // host: "flyfarint.com",
+      // database:"flyfarin_tech",
       
-      // username:"root",
-      // password: "",
-      // host: "127.0.0.1",
-      // database:"flyfartech",
-
+      username:"root",
+      password: "",
+      host: "127.0.0.1",
+      database:"flyfartech",
 
       port:3306,
-      entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero],
+      entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Careertalk],
       synchronize:false
 
     }
@@ -47,6 +50,8 @@ import { Hero } from './hero/entities/hero.entity';
     BlogModule,
     ContactModule,
     HeroModule,
+    CarreerpageModule,
+    CareertalkModule,
   ],
   controllers: [AppController],
   providers: [AppService],

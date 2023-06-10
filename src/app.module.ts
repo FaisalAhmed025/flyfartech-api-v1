@@ -27,11 +27,13 @@ import { Hero } from './hero/entities/hero.entity';
       password: "@Kayes70455",
       host: "flyfarint.com",
       database:"flyfarin_tech",
-
+      
       // username:"root",
       // password: "",
       // host: "127.0.0.1",
       // database:"flyfartech",
+
+
       port:3306,
       entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero],
       synchronize:false

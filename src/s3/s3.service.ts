@@ -44,7 +44,7 @@ export class GCSStorageService  {
             const serviceAccountKeyFile = 's3config.json';
             process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountKeyFile;
             const storage = new Storage({ keyFilename: serviceAccountKeyFile });
-            const bucketName = 'cdn.flyfarladies.com'; // Replace with your actual bucket name
+            const bucketName = 'flyfartechcdn'; // Replace with your actual bucket name
             const bucket = storage.bucket(bucketName);
             const fileName = `${file.originalname}`;
             const fileObject = bucket.file(fileName);
@@ -77,7 +77,7 @@ export class GCSStorageService  {
       const serviceAccountKeyFile = 's3config.json';
       process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountKeyFile;
       const storage = new Storage({ keyFilename: serviceAccountKeyFile });
-      const bucketName = 'cdn.flyfarladies.com'; // Replace with your actual bucket name
+      const bucketName = 'flyfartechcdn'; // Replace with your actual bucket name
       const bucket = storage.bucket(bucketName);
       const fileName = `${file.originalname}.webp`;
       const fileObject = bucket.file(fileName);

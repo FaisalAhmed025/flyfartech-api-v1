@@ -52,7 +52,7 @@ export class CareertalkController {
     carreer.FullName = FullName
     carreer.Description =Description
     await this.CarreertalkRepository.save({...carreer})
-    return res.status(HttpStatus.OK).send({ status: "success", message: "Employee Added Successfully", })
+    return res.status(HttpStatus.OK).send({ status: "success", message: "Message Added Successfully", })
   }
 
 

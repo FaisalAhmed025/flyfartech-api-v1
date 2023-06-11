@@ -39,7 +39,7 @@ import { Careertalk } from './careertalk/entities/careertalk.entity';
 
       port:3306,
       entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Careertalk],
-      synchronize:false
+      synchronize:true
 
     }
     ),

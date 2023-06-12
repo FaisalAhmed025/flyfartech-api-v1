@@ -12,6 +12,4 @@ export class Job {
    Description:string
    @Column({type:'date'})
    DueDate:Date
-
-
 }

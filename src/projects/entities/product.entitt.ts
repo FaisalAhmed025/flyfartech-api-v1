@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity,PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Produtcs{
-   @PrimaryGeneratedColumn('uuid')
-   projectid:string
+   @PrimaryColumn()
+   id:string
    @Column({default:null})
    Country:string
    @Column({default:null})

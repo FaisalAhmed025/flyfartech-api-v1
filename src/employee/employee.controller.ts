@@ -11,7 +11,7 @@ import { GCSStorageService } from 'src/s3/s3.service';
 import { Request, Response } from 'express';
 
 
-@ApiTags('Employees')
+@ApiTags('Employees')      
 @Controller('employee')
 export class EmployeeController {
   constructor( @InjectRepository(Employee) private EmployeeRepository: Repository<Employee>,
@@ -106,7 +106,7 @@ export class EmployeeController {
 
   @Get('all')
   async allemployee( @Res() res: Response){
-    const allprojects = await this.EmployeeRepository.find({})
+    const allprojects = await this.EmployeeRepository.find({order:{ created_at:'ASC'}})
     return res.status(HttpStatus.OK).send({allprojects})
   }
 

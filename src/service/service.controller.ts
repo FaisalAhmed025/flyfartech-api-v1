@@ -62,7 +62,7 @@ export class ServiceController {
 
 
     
-    @Patch(':serviceid')
+    @Patch(':id')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -86,7 +86,7 @@ export class ServiceController {
       file: {
         imageurl?: Express.Multer.File[]},
     @Req() req: Request,
-    @Param('serviceid') serviceid:string,
+    @Param('id') id:number,
     @Body() body,
     @Res() res: Response){
       const{TextField, Name ,CustomerCount} =req.body;
@@ -95,7 +95,7 @@ export class ServiceController {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
 
-      const services = await this.ServicesRepository.findOne({where:{serviceid}}); // Retrieve testimonial by ID instead of UUID
+      const services = await this.ServicesRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
 
       if (!services) {
         return res.status(HttpStatus.NOT_FOUND).send({
@@ -107,24 +107,24 @@ export class ServiceController {
       services.Name =Name
       services.TextField =TextField
       services.CustomerCount =CustomerCount
-      await this.ServicesRepository.update({serviceid},{...services})
+      await this.ServicesRepository.update({id},{...services})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Service update Successfully", })
     }
 
 
     @Get('all')
     async allservices( @Res() res: Response){
-      const allservices = await this.ServicesRepository.find({})
+      const allservices = await this.ServicesRepository.find({order:{created_at:'ASC'}})
       return res.status(HttpStatus.OK).send({allservices})
     }
 
 
-    @Delete(':serviceid')
+    @Delete(':id')
     async Deleteservice(
-       @Param('serviceid') serviceid: string,
+       @Param('id') id: string,
        @Req() req: Request,
        @Res() res: Response) {
-       await this.ServicesRepository.delete(serviceid)
+       await this.ServicesRepository.delete(id)
        return res.status(HttpStatus.OK).json({ message: 'service has deleted' });
     }
 

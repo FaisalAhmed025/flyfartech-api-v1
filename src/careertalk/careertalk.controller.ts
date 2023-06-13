@@ -55,5 +55,11 @@ export class CareertalkController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Message Added Successfully", })
   }
 
+  @Get('all')
+  async allblog( @Res() res: Response){
+    const Allmessage = await this.CarreertalkRepository.find({order:{created_at:'ASC'}})
+    return res.status(HttpStatus.OK).send({Allmessage})
+  }
+
 
 }

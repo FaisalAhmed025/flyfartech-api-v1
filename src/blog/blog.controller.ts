@@ -107,9 +107,10 @@ export class BlogController {
       await this.BlogRepository.update({blogid},{...blog})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Blog update Successfully", })
     }
+    
     @Get('all')
     async allblog( @Res() res: Response){
-      const allblog = await this.BlogRepository.find({})
+      const allblog = await this.BlogRepository.find({order:{created_at:'DESC'}})
       return res.status(HttpStatus.OK).send({allblog})
     }
 

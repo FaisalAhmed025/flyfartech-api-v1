@@ -43,7 +43,7 @@ import { Jobapplication } from './jobapplication/entities/jobapplication.entity'
 
       port:3306,
       entities:[Services,Produtcs, Testimonial, Blog, Contact,  Employee, Hero, Carreerpage, Job,Careertalk, Jobapplication],
-      synchronize:true
+      synchronize:false
   
 
     }

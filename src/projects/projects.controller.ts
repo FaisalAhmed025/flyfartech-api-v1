@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import { GCSStorageService } from 'src/s3/s3.service';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 @ApiTags('Projects')
 @Controller('project')
@@ -59,7 +60,7 @@ export class ProjectsController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Project Added Successfully", })
     }
 
-    @Patch(':id')
+    @Patch(':uuid')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -84,7 +85,7 @@ export class ProjectsController {
       file: {
         imageurl?: Express.Multer.File[]},
 
-      @Param('id') id: number,
+      @Param('uuid') uuid: string,
       @Req() req: Request,
       @Body() body,
       @Res() res: Response){
@@ -94,7 +95,7 @@ export class ProjectsController {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
 
-      const product = await this.ProductRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
+      const product = await this.ProductRepository.findOne({where:{uuid}}); // Retrieve testimonial by ID instead of UUID
 
       if (!product) {
         return res.status(HttpStatus.NOT_FOUND).send({
@@ -109,7 +110,7 @@ export class ProjectsController {
       product.Description =Description
       product.Projectlink =Projectlink
       product.Tag =Tag
-      await this.ProductRepository.update({id},{...product})
+      await this.ProductRepository.update({uuid},{...product})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Employee update Successfully", })
     }
 
@@ -120,12 +121,12 @@ export class ProjectsController {
     }
 
 
-    @Delete(':id')
+    @Delete(':uuid')
     async Deleteproduct(
-       @Param('id') id: number,
+       @Param('uuid') uuid: string,
        @Req() req: Request,
        @Res() res: Response) {
-       await this.ProductRepository.delete(id)
+       await this.ProductRepository.delete(uuid)
        return res.status(HttpStatus.OK).json({ status:"success", message: 'project has deleted' });
     }
 

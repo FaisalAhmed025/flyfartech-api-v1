@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 
 
@@ -6,10 +6,13 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Job {
    @PrimaryGeneratedColumn('uuid')
    jobid:string
+   @Index() 
    @Column()
    Title:string
+   @Index() 
    @Column()
    Description:string
+   @Index() 
    @Column({type:'date'})
    DueDate:Date
 }

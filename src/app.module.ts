@@ -24,6 +24,8 @@ import { CareertalkModule } from './careertalk/careertalk.module';
 import { Careertalk } from './careertalk/entities/careertalk.entity';
 import { JobModule } from './job/job.module';
 import { Job } from './job/entities/job.entity';
+import { JobapplicationModule } from './jobapplication/jobapplication.module';
+import { Jobapplication } from './jobapplication/entities/jobapplication.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true, envFilePath: '.env', }),
@@ -38,9 +40,8 @@ import { Job } from './job/entities/job.entity';
       // password: "",
       // host: "127.0.0.1",
       // database:"flyfartech",
-
       port:3306,
-      entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Job,Careertalk],
+      entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Job,Careertalk, Jobapplication],
       synchronize:false
 
     }
@@ -55,6 +56,7 @@ import { Job } from './job/entities/job.entity';
     CarreerpageModule,
     CareertalkModule,
     JobModule,
+    JobapplicationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

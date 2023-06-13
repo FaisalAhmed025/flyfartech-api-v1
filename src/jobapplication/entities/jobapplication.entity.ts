@@ -1,21 +1,23 @@
 import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+
+
 @Entity()
-export class Careertalk {
-   @PrimaryGeneratedColumn('uuid')
-   id:string
+export class Jobapplication {
+   @PrimaryGeneratedColumn()
+   id:number
    @Index() 
    @Column()
-   FullName:string
+   Name:string
    @Index() 
    @Column()
-   Title:string
+   Email:string
    @Index() 
    @Column()
    Description:string
    @Index() 
    @Column()
-   imageurl:string   
+   cvattachmenturl:string
    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
    public created_at: Date;
    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })

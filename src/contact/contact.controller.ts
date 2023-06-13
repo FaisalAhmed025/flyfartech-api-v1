@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import * as nodemailer from 'nodemailer';
+import { Produtcs } from 'src/projects/entities/product.entitt';
 
 @ApiTags('Contact')
 @Controller('contact')
@@ -16,7 +18,6 @@ export class ContactController {
     private s3service: GCSStorageService,
     private readonly contactService: ContactService) {}
 
-  
   @Post('create')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'Attachment', maxCount: 2 }]))
@@ -29,7 +30,7 @@ export class ContactController {
           Description: { type: 'string' },
           Email: { type: 'string' },
           Category: { type: 'string' },
-          imageurl: {
+          Attachment: {
             type: 'string',
             format: 'binary',
           },
@@ -48,29 +49,460 @@ export class ContactController {
     if (file.Attachment && file.Attachment.length > 0) {
       imageurl = await this.s3service.Addimage(file.Attachment[0]);
     }
-    const products  = new Contact()
-    products.imagelink =imageurl
-    products.Name = Name
-    products.Category =Category
-    products.Description =Description
-    products.Email =Email
-    products.Attachment =imageurl
-    await this.ContactRepository.save({...products})
+    const contact  = new Contact()
+    contact.imagelink =imageurl
+    contact.Name = Name
+    contact.Category =Category
+    contact.Description =Description
+    contact.Email =Email
+    contact.Attachment =imageurl
+    await this.ContactRepository.save({...contact})
+    await this.sendRegisterSuccecess(contact)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Thanks for contacting with us", })
+   }
+
+
+   async sendRegisterSuccecess(contact:Contact) {
+   const transporter = nodemailer.createTransport({
+    host: 'b2b.flyfarint.com', // Replace with your email service provider's SMTP host
+    port: 465, // Replace with your email service provider's SMTP port
+    secure: true, // Use TLS for secure connection
+    auth: {
+      user: 'flyfarladies@mailservice.center', // Replace with your email address
+      pass: 'YVWJCU.?UY^R', // Replace with your email password
+    },
+  });
+
+  const mailOptions = {
+    from: 'flyfarladies@mailservice.center', // Replace with your email address
+    to:'faisal@flyfar.tech',// Recipient's email address
+    subject: 'Contact Confirmation',
+    text: 'hello ',
+    html: `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Deposit Request</title>
+      </head>
+      <body>
+        <div
+          style="
+            width: 700px;
+            height: fit-content;
+            margin: 0 auto;
+            background-color: #efefef;
+          "
+        >
+          <div style="width: 700px; height: 70px; background: #fe99a6">
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                padding: 0;
+                width: 700px;
+              "
+            >
+              <tr>
+                <td
+                  align="center"
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #ffffff;
+                    font-family: sans-serif;
+                    font-size: 15px;
+                    line-height: 38px;
+                    padding: 20px 0 20px 0;
+                    text-transform: uppercase;
+                    letter-spacing: 5px;
+                  "
+                >
+                  Contact Information
+                </td>
+              </tr>
+            </table>
+    
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                padding: 0;
+                width: 700px;
+              "
+            >
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    background-color: #efefef;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #584660;
+                    font-family: sans-serif;
+                    font-size: 30px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 20px 40px 0px 55px;
+                  "
+                >
+                  ${contact.Name}
+                </td>
+              </tr>
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    background-color: #efefef;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #bc6277;
+                    font-family: sans-serif;
+                    font-size: 17px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 0px 40px 20px 55px;
+                  "
+                >
+                  ${contact.Email}
+                </td>
+              </tr>
+            </table>
+    
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                padding: 0;
+                width: 620px;
+                background-color: #ffffff;
+              "
+            >
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #bc6277;
+                    font-family: sans-serif;
+                    font-size: 15px;
+                    font-weight: 600;
+                    line-height: 38px;
+                    padding: 10px 20px 5px 20px;
+                  "
+                >
+                  User Details
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #dfdfdf">
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #767676;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 5px 20px;
+                    width: 180px;
+                  "
+                >
+                  Username
+                </td>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #767676;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 5px 20px;
+                  "
+                >
+                  ${contact.Category}
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #dfdfdf">
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #767676;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 5px 20px;
+                    width: 180px;
+                  "
+                >
+                  ShortDescription
+                </td>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: #767676;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 5px 20px;
+                  "
+                >
+                ${contact.Description}
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #dfdfdf">
+              <td
+                valign="top"
+                style="
+                  border-collapse: collapse;
+                  border-spacing: 0;
+                  color: #767676;
+                  font-family: sans-serif;
+                  font-size: 14px;
+                  font-weight: 500;
+                  line-height: 38px;
+                  padding: 5px 20px;
+                  width: 180px;
+                "
+              >
+                Attachment
+              </td>
+              <td
+                valign="top"
+                style="
+                  border-collapse: collapse;
+                  border-spacing: 0;
+                  color: #767676;
+                  font-family: sans-serif;
+                  font-size: 14px;
+                  font-weight: 500;
+                  line-height: 38px;
+                  padding: 5px 20px;
+                "
+              >
+              ${contact.Attachment}
+              </td>
+            </tr>
+            </table>
+    
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                padding: 0;
+                width: 670px;
+                background-color: #702c8b;
+                margin-top: 25px;
+                text-align: center;
+                color: #ffffff !important;
+                text-decoration: none !important;
+              "
+            >
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    font-family: sans-serif;
+                    font-size: 16px;
+                    font-weight: 500;
+                    padding: 20px 20px 0px 20px;
+                  "
+                >
+                  Need more help?
+                </td>
+              </tr>
+    
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    font-family: sans-serif;
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 38px;
+                    padding: 0px 20px 10px 20px;
+                  "
+                >
+                  Mail us at
+                  <span style="color: #ffffff !important; text-decoration: none"
+                    >support@flyfarladies.com</span
+                  >
+                  or Call us at 09606912912
+                </td>
+              </tr>
+            </table>
+    
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="left"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                padding: 0;
+                width: 420px;
+                color: #ffffff;
+              "
+            >
+              <tr>
+                <td
+                  valign="top"
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    font-family: sans-serif;
+                    font-size: 13px;
+                    font-weight: 600;
+                    padding: 20px 0px 0px 45px;
+                    color: #767676;
+                  "
+                >
+                  <a style="padding-right: 20px; color: #584660" href="http://"
+                    >Terms & Conditions</a
+                  >
+    
+                  <a style="padding-right: 20px; color: #584660" href="http://"
+                    >Booking Policy</a
+                  >
+    
+                  <a style="padding-right: 20px; color: #584660" href="http://"
+                    >Privacy Policy</a
+                  >
+                </td>
+              </tr>
+            </table>
+    
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="
+                border-collapse: collapse;
+                border-spacing: 0;
+                width: 700px;
+                color: #ffffff;
+                margin-top: 85px;
+              "
+            >
+              <tr>
+                <td style="padding-left: 45px">
+                  <img
+                    style="padding-right: 5px"
+                    src="./img/Vector (5).png"
+                    href="http://"
+                    alt=""
+                  />
+                  <img
+                    style="padding-right: 5px"
+                    src="./img/Vector (6).png"
+                    href="http://"
+                    alt=""
+                  />
+                  <img
+                    style="padding-right: 5px"
+                    src="./img/Vector (7).png"
+                    href="http://"
+                    alt=""
+                  />
+                </td>
+              </tr>
+    
+              <tr>
+                <td
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    font-family: sans-serif;
+                    font-size: 13px;
+                    font-weight: 500;
+                    padding: 5px 0px 0px 45px;
+                    color: #767676;
+                    padding-bottom: 2px;
+                  "
+                >
+                  Ka 11/2A, Bashundhora R/A Road, Jagannathpur, Dhaka 1229.
+                </td>
+    
+                <td
+                  style="
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    font-family: sans-serif;
+                    font-weight: 500;
+                    color: #767676;
+                    padding-bottom: 20px;
+    
+                  "
+                >
+                  <img width="100px" src="./img/logo 1 (1).png" alt="" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </body>
+    </html>
+    `
   }
-  
+
+  await transporter.sendMail(mailOptions,(error, info) => {
+     if (error) {
+       console.error(error);
+     } else {
+       console.log('Email sent successfully:', info.response);
+     }
+   });
+
+  }
+
+
+
   @Get('all')
   async allcontact( @Res() res: Response){
     const allcontact = await this.ContactRepository.find({})
     return res.status(HttpStatus.OK).send({allcontact})
   }
 
-  @Delete(':contactid')
+  @Delete(':id')
   async Deletecontact(
-     @Param('contactid') contactid: string,
+     @Param('id') id: number,
      @Req() req: Request,
      @Res() res: Response) {
-     await this.ContactRepository.delete(contactid)
+     await this.ContactRepository.delete(id)
      return res.status(HttpStatus.OK).json({ message: 'contact has deleted' });
   }
 

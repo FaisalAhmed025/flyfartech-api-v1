@@ -1,4 +1,4 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 
@@ -6,10 +6,8 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 export class Carreerpage {
    @PrimaryGeneratedColumn('uuid')
    id:string
-   @Index() 
    @Column()
    coverimage1:string
-   @Index() 
    @Column()
    coverimage2:string
 }

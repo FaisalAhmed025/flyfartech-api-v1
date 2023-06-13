@@ -6,16 +6,15 @@ import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, Update
 export class Jobapplication {
    @PrimaryGeneratedColumn()
    id:number
-   @Index() 
+
    @Column()
    Name:string
-   @Index() 
+
    @Column()
    Email:string
-   @Index() 
+
    @Column()
    Description:string
-   @Index() 
    @Column()
    cvattachmenturl:string
    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })

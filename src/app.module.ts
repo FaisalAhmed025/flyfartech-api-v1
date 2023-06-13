@@ -40,9 +40,11 @@ import { Jobapplication } from './jobapplication/entities/jobapplication.entity'
       // password: "",
       // host: "127.0.0.1",
       // database:"flyfartech",
+
       port:3306,
-      entities:[Produtcs, Testimonial, Blog, Contact, Services, Employee, Hero, Carreerpage, Job,Careertalk, Jobapplication],
-      synchronize:false
+      entities:[Services,Produtcs, Testimonial, Blog, Contact,  Employee, Hero, Carreerpage, Job,Careertalk, Jobapplication],
+      synchronize:true
+  
 
     }
     ),

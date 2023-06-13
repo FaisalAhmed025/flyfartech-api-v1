@@ -90,9 +90,7 @@ export class BlogController {
       if (file.imageurl && file.imageurl.length > 0) {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
-
       const blog = await this.BlogRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
-
       if (!blog) {
         return res.status(HttpStatus.NOT_FOUND).send({
           status: "error",
@@ -108,6 +106,7 @@ export class BlogController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Blog update Successfully", })
     }
 
+    
     @Get('all')
     async allblog( @Res() res: Response){
       const allblog = await this.BlogRepository.find({order:{created_at:'DESC'}})

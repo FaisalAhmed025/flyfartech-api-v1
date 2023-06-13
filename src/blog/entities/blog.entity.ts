@@ -3,8 +3,8 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export class Blog{
-   @PrimaryGeneratedColumn('uuid')
-   blogid:string
+   @PrimaryGeneratedColumn()
+   id:number
    @Column({default:null})
    Category:string
    @Column({default:null})

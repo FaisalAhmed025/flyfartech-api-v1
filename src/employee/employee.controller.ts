@@ -55,7 +55,7 @@ export class EmployeeController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Employee Added Successfully", })
   }
 
-  @Patch(':Employeeid')
+  @Patch(':id')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'imageurl', maxCount: 2 }]))
     @ApiConsumes('multipart/form-data')
@@ -78,7 +78,7 @@ export class EmployeeController {
     file: {
       imageurl?: Express.Multer.File[]},
     
-    @Param('Employeeid') Employeeid: string,
+    @Param('id') id: number,
     @Req() req: Request,
     @Body() body,
     @Res() res: Response){
@@ -88,7 +88,7 @@ export class EmployeeController {
       imageurl = await this.s3service.Addimage(file.imageurl[0]);
     }
 
-    const employee = await this.EmployeeRepository.findOne({where:{Employeeid}}); // Retrieve testimonial by ID instead of UUID
+    const employee = await this.EmployeeRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
 
     if (!employee) {
       return res.status(HttpStatus.NOT_FOUND).send({
@@ -100,7 +100,7 @@ export class EmployeeController {
     employee.Designation =Designation
     employee.FullName = FullName
     employee.Designation =Designation
-    await this.EmployeeRepository.update({Employeeid},{...employee})
+    await this.EmployeeRepository.update({id},{...employee})
     return res.status(HttpStatus.OK).send({ status: "success", message: "Employee update Successfully", })
   }
 
@@ -111,12 +111,12 @@ export class EmployeeController {
   }
 
   
-  @Delete(':Employeeid')
+  @Delete(':id')
   async DeleteEmployee(
-     @Param('Employeeid') Employeeid: string,
+     @Param('id') id: number,
      @Req() req: Request,
      @Res() res: Response) {
-    const employee= await this.EmployeeRepository.delete(Employeeid)
+    const employee= await this.EmployeeRepository.delete(id)
     if (!employee) {
       return res.status(HttpStatus.NOT_FOUND).send({
         status: "error",

@@ -60,7 +60,7 @@ export class ProjectsController {
       return res.status(HttpStatus.OK).send({ status: "success", message: "Project Added Successfully", })
     }
 
-    @Patch(':uuid')
+    @Patch(':id')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -85,7 +85,7 @@ export class ProjectsController {
       file: {
         imageurl?: Express.Multer.File[]},
 
-      @Param('uuid') uuid: string,
+      @Param('id') id: number,
       @Req() req: Request,
       @Body() body,
       @Res() res: Response){
@@ -95,7 +95,7 @@ export class ProjectsController {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
 
-      const product = await this.ProductRepository.findOne({where:{uuid}}); // Retrieve testimonial by ID instead of UUID
+      const product = await this.ProductRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
 
       if (!product) {
         return res.status(HttpStatus.NOT_FOUND).send({
@@ -110,7 +110,7 @@ export class ProjectsController {
       product.Description =Description
       product.Projectlink =Projectlink
       product.Tag =Tag
-      await this.ProductRepository.update({uuid},{...product})
+      await this.ProductRepository.update({id},{...product})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Employee update Successfully", })
     }
 
@@ -121,12 +121,12 @@ export class ProjectsController {
     }
 
 
-    @Delete(':uuid')
+    @Delete(':id')
     async Deleteproduct(
-       @Param('uuid') uuid: string,
+       @Param('id') id: string,
        @Req() req: Request,
        @Res() res: Response) {
-       await this.ProductRepository.delete(uuid)
+       await this.ProductRepository.delete(id)
        return res.status(HttpStatus.OK).json({ status:"success", message: 'project has deleted' });
     }
 

@@ -2,8 +2,8 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export class Employee {
-   @PrimaryGeneratedColumn('uuid')
-   Employeeid:string
+   @PrimaryGeneratedColumn()
+   id:number
    @Column({default:null})
    FullName:string
    @Column({default:null})

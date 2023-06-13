@@ -58,7 +58,7 @@ export class BlogController {
       await this.BlogRepository.save({...blog})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Blog created Successfully", })
     }
-    @Patch(':blogid')
+    @Patch(':id')
     @UseInterceptors(FileFieldsInterceptor([
       { name: 'imageurl', maxCount: 2 }]))
       @ApiConsumes('multipart/form-data')
@@ -81,7 +81,7 @@ export class BlogController {
       @UploadedFiles()
       file: {
         imageurl?: Express.Multer.File[]},
-      @Param('blogid') blogid: string,
+      @Param('id') id: number,
       @Req() req: Request,
       @Body() body,
       @Res() res: Response){
@@ -91,7 +91,7 @@ export class BlogController {
         imageurl = await this.s3service.Addimage(file.imageurl[0]);
       }
 
-      const blog = await this.BlogRepository.findOne({where:{blogid}}); // Retrieve testimonial by ID instead of UUID
+      const blog = await this.BlogRepository.findOne({where:{id}}); // Retrieve testimonial by ID instead of UUID
 
       if (!blog) {
         return res.status(HttpStatus.NOT_FOUND).send({
@@ -104,22 +104,22 @@ export class BlogController {
       blog.WrittenBy =WrittenBy
       blog.Title = Title
       blog.Designation = Designation
-      await this.BlogRepository.update({blogid},{...blog})
+      await this.BlogRepository.update({id},{...blog})
       return res.status(HttpStatus.OK).send({ status: "success", message: "Blog update Successfully", })
     }
-    
+
     @Get('all')
     async allblog( @Res() res: Response){
       const allblog = await this.BlogRepository.find({order:{created_at:'DESC'}})
       return res.status(HttpStatus.OK).send({allblog})
     }
 
-    @Delete(':blogid')
+    @Delete(':id')
     async Deleteblog(
-       @Param('blogid') blogid: string,
+       @Param('id') id: number,
        @Req() req: Request,
        @Res() res: Response) {
-       const blog = await this.BlogRepository.delete(blogid)
+       const blog = await this.BlogRepository.delete(id)
        if (!blog) {
         return res.status(HttpStatus.NOT_FOUND).send({
           status: "error",

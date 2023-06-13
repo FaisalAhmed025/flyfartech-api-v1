@@ -84,7 +84,7 @@ export class ProjectsController {
       file: {
         imageurl?: Express.Multer.File[]},
 
-      @Param('id') id: string,
+      @Param('id') id: number,
       @Req() req: Request,
       @Body() body,
       @Res() res: Response){
@@ -122,7 +122,7 @@ export class ProjectsController {
 
     @Delete(':id')
     async Deleteproduct(
-       @Param('id') id: string,
+       @Param('id') id: number,
        @Req() req: Request,
        @Res() res: Response) {
        await this.ProductRepository.delete(id)

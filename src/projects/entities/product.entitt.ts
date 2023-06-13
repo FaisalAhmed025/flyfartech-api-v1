@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity,PrimaryColumn, UpdateDateColumn } from
 @Entity()
 export class Produtcs{
    @PrimaryColumn()
-   id:string
+   id:number
    @Column({default:null})
    Country:string
    @Column({default:null})

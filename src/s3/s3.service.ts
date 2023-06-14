@@ -40,6 +40,33 @@ export class GCSStorageService  {
           }
 
 
+          async Addpdf(file: Express.Multer.File) {
+            const serviceAccountKeyFile = 's3config.json';
+            process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountKeyFile;
+            const storage = new Storage({ keyFilename: serviceAccountKeyFile });
+            const bucketName = 'flyfartechcdn'; // Replace with your actual bucket name
+            const bucket = storage.bucket(bucketName);
+            const fileName = `${file.originalname}`;
+            const fileObject = bucket.file(fileName);
+          
+            try {
+          
+              await fileObject.save(fileName, {
+                contentType: 'pdf',
+                public: true,
+                validation: 'md5',
+              });
+          
+              const fileUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+              console.log(`File uploaded successfully to ${fileUrl}`);
+              return fileUrl;
+            } catch (err) {
+              console.error('Error uploading file to Google Cloud Storage:', err);
+              throw err;
+            }
+          }
+
+
           async Addvideos(file: Express.Multer.File) {
             const serviceAccountKeyFile = 's3config.json';
             process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountKeyFile;

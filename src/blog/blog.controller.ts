@@ -56,7 +56,7 @@ export class BlogController {
       blog.Designation =Designation
       blog.WrittenBy =WrittenBy
       await this.BlogRepository.save({...blog})
-      return res.status(HttpStatus.OK).send({ status: "success", message: "Blog created Successfully", })
+      return res.status(HttpStatus.OK).send({ status: "success", message: "Blog Created Successfully", })
     }
     @Patch(':id')
     @UseInterceptors(FileFieldsInterceptor([

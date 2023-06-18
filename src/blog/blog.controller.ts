@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, HttpStatus, Req, Res } from '@nestjs/common';
 import { BlogService } from './blog.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Blog } from './entities/blog.entity';
 import { Repository } from 'typeorm';
